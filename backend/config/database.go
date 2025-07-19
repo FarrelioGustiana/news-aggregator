@@ -31,6 +31,7 @@ func ConnectDB() {
 
 	err = DB.AutoMigrate(
 		&models.User{},
+		&models.Feed{},
 		// Other models (Feed, Article, Subscription) will be added here later
 	)
 	if err != nil {

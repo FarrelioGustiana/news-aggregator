@@ -13,12 +13,9 @@ func SetupAPIRoutes(router *gin.Engine) {
 	// Group for authentication-related routes (publicly accessible).
 	authRoutes := router.Group("/api/auth")
 	{
-		// POST /api/auth/register: Route for user registration.
 		authRoutes.POST("/register", controllers.RegisterUser)
-		// POST /api/auth/login: Route for user login.
 		authRoutes.POST("/login", controllers.LoginUser)
 	}
-
 	// Group for protected API routes (require JWT authentication).
 	apiRoutes := router.Group("/api")
 	// Apply the JWT authentication middleware to all routes within this group.
@@ -37,6 +34,8 @@ func SetupAPIRoutes(router *gin.Engine) {
 			c.JSON(http.StatusOK, gin.H{"message": "Welcome to the protected area!", "userID": userID})
 		})
 
+		apiRoutes.POST("/feeds", controllers.CreateFeed)
+		apiRoutes.GET("/feeds", controllers.GetAllFeeds)
 
 	}
 }
