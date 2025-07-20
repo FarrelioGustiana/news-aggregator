@@ -13,7 +13,6 @@ var DB *gorm.DB
 
 func ConnectDB() {
 	var err error
-
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
 		GetEnv("DB_HOST"),
 		GetEnv("DB_USER"),
@@ -32,7 +31,7 @@ func ConnectDB() {
 	err = DB.AutoMigrate(
 		&models.User{},
 		&models.Feed{},
-		// Other models (Feed, Article, Subscription) will be added here later
+		&models.Subscription{},
 	)
 	if err != nil {
 		log.Fatalf("Failed to auto-migrate database schema: %v", err)

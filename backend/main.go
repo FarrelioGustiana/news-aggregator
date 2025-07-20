@@ -9,21 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// The init function is automatically executed before the main function.
-// It's a good place for setup tasks like loading environment variables and connecting to the database.
 func init() {
-	// Load environment variables from the .env file.
 	config.LoadEnv()
-	// Connect to the PostgreSQL database and run GORM auto-migrations.
 	config.ConnectDB()
 }
 
-// The main function is the entry point of your application.
 func main() {
-	// Initialize a new Gin default router.
 	r := gin.Default()
 
-	// --- Basic CORS Setup (Optional but often needed for frontend development) ---
 	r.Use(func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -36,9 +29,7 @@ func main() {
 		}
 		c.Next()
 	})
-	// -------------------------------------------------------------------------
 
-	// Define a simple GET endpoint for the root path.
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Pilar Credo Backend API is running!",
@@ -46,12 +37,7 @@ func main() {
 		})
 	})
 
-	// Setup API routes
 	routes.SetupAPIRoutes(r)
-
-	// TODO: The feed fetching scheduler will be started here later
-	// services.StartFeedScheduler(config.DB)
-
 
 	port := os.Getenv("PORT")
 	if port == "" {

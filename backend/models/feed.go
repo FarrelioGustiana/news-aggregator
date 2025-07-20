@@ -15,7 +15,6 @@ type Feed struct {
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 	DeletedAt     gorm.DeletedAt `gorm:"index"` 
-	// Articles and Subscriptions relationships will be added here later
-	// Articles      []Article      `gorm:"foreignKey:FeedID"`
-	// Subscriptions []Subscription `gorm:"foreignKey:FeedID"`
+	
+	Subscriptions []Subscription `gorm:"foreignKey:FeedID"`
 }
