@@ -102,3 +102,26 @@ func UnsubscribeFromFeed(c *gin.Context) {
 
 	c.Status(http.StatusNoContent) // 204 No Content for successful deletion
 }
+
+func CheckSubscriptionStatus(c *gin.Context) {
+	userID, exists := c.Get("userID")
+	if !exists {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "User ID not found in context"})
+		return
+	}
+
+	feedIDStr := c.Param("feedId")
+	feedID, err := strconv.ParseUint(feedIDStr, 10, 32) 
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid feed ID format"}) // 400 Bad Request
+		return
+	}
+
+	isSubscribed, err := services.IsUserSubscribed(userID.(string), uint(feedID)) 
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check subscription status: " + err.Error()}) // 500 Internal Server Error
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"is_subscribed": isSubscribed}) // 200 OK
+}

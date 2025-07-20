@@ -75,3 +75,16 @@ func UnsubscribeFromFeed(userID string, feedID uint) error {
 	
 	return nil
 }
+
+func IsUserSubscribed(userID string, feedID uint) (bool, error) {
+	var count int64
+	err := config.DB.Model(&models.Subscription{}).
+		Where("user_id = ? AND feed_id = ?", userID, feedID).
+		Count(&count).Error
+
+	if err != nil {
+		return false, fmt.Errorf("database error checking subscription status: %w", err)
+	}
+
+	return count > 0, nil
+}
