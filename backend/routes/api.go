@@ -1,11 +1,11 @@
 package routes
 
 import (
-	"net/http" // Import http package for HTTP status codes (e.g., for dummy protected route)
+	"net/http"
 
-	controllers "github.com/FarrelioGustiana/backend/controllers" // Import your controllers package
-	middleware "github.com/FarrelioGustiana/backend/middlewares"  // Import your middleware package
-	"github.com/gin-gonic/gin"                                    // Import Gin framework
+	controllers "github.com/FarrelioGustiana/backend/controllers"
+	middleware "github.com/FarrelioGustiana/backend/middlewares"
+	"github.com/gin-gonic/gin"
 )
 
 // SetupAPIRoutes configures all API routes for the Gin router.
@@ -36,6 +36,8 @@ func SetupAPIRoutes(router *gin.Engine) {
 
 		apiRoutes.POST("/feeds", controllers.CreateFeed)
 		apiRoutes.GET("/feeds", controllers.GetAllFeeds)
-
+		apiRoutes.GET("/feeds/:id", controllers.GetFeedByID)
+		apiRoutes.PUT("/feeds/:id", controllers.UpdateFeed)
+		apiRoutes.DELETE("/feeds/:id", controllers.DeleteFeed)
 	}
 }
