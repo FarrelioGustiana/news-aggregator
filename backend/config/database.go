@@ -32,6 +32,7 @@ func ConnectDB() {
 		&models.User{},
 		&models.Feed{},
 		&models.Subscription{},
+		&models.Article{},
 	)
 	if err != nil {
 		log.Fatalf("Failed to auto-migrate database schema: %v", err)

@@ -6,6 +6,7 @@ import (
 
 	"github.com/FarrelioGustiana/backend/config"
 	"github.com/FarrelioGustiana/backend/routes"
+	"github.com/FarrelioGustiana/backend/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -38,6 +39,8 @@ func main() {
 	})
 
 	routes.SetupAPIRoutes(r)
+
+	services.StartFeedScheduler(config.DB)
 
 	port := os.Getenv("PORT")
 	if port == "" {

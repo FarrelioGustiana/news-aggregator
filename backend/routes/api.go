@@ -30,5 +30,9 @@ func SetupAPIRoutes(router *gin.Engine) {
 		apiRoutes.GET("/subscriptions", controllers.GetUserSubscriptions)
 		apiRoutes.DELETE("/subscriptions/:feedId", controllers.UnsubscribeFromFeed) 
 		apiRoutes.GET("/subscriptions/:feedId/status", controllers.CheckSubscriptionStatus)
+
+		// Articles
+		apiRoutes.GET("/articles", controllers.GetArticlesForUser)
+		apiRoutes.GET("/articles/:id", controllers.GetArticleByID)
 	}
 }
