@@ -18,6 +18,11 @@ func SetupAPIRoutes(router *gin.Engine) {
 
 	apiRoutes.Use(middleware.AuthMiddleware())
 	{
+
+		// Profile
+		apiRoutes.GET("/users/me", controllers.GetMyProfile)
+		apiRoutes.PUT("/users/me", controllers.UpdateMyProfile)
+
 		// Feeds
 		apiRoutes.POST("/feeds", controllers.CreateFeed)
 		apiRoutes.GET("/feeds", controllers.GetAllFeeds)

@@ -66,3 +66,57 @@ func LoginUser(username string, password string) (string, error) {
 
 	return token, nil
 }
+
+func GetUserProfile(userID string) (*models.User, error) {
+	var user models.User
+	// First() will find the user by ID. Select("-Password") excludes the password hash.
+	result := config.DB.Select("ID", "Username", "CreatedAt", "UpdatedAt").First(&user, "id = ?", userID)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, errors.New("user not found")
+		}
+		return nil, fmt.Errorf("database error retrieving user profile: %w", result.Error)
+	}
+	return &user, nil
+}
+
+func UpdateUserProfile(userID, newUsername, newPassword string) (*models.User, error) {
+	var user models.User
+	result := config.DB.First(&user, "id = ?", userID)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, errors.New("user not found")
+		}
+		return nil, fmt.Errorf("database error finding user for update: %w", result.Error)
+	}
+
+	if newUsername != "" && newUsername != user.Username {
+		var existingUser models.User
+		if err := config.DB.Where("username = ? AND id <> ?", newUsername, userID).First(&existingUser).Error; err == nil {
+			return nil, errors.New("new username is already taken by another user")
+		} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, fmt.Errorf("database error checking new username: %w", err)
+		}
+		user.Username = newUsername
+	}
+
+	if newPassword != "" {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+		if err != nil {
+			return nil, fmt.Errorf("failed to hash new password: %w", err)
+		}
+		user.Password = string(hashedPassword)
+	}
+
+	result = config.DB.Save(&user)
+	if result.Error != nil {
+		return nil, fmt.Errorf("failed to update user profile: %w", result.Error)
+	}
+
+	return &models.User{
+		ID:        user.ID,
+		Username:  user.Username,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+	}, nil
+}
