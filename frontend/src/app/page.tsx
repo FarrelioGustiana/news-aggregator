@@ -75,7 +75,7 @@ export default function Home() {
               </Link>
               <Link
                 href="#how-it-works"
-                className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-white hover:bg-opacity-10 transition-colors"
+                className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:opacity-80 transition-colors"
               >
                 Learn More
               </Link>
@@ -83,19 +83,6 @@ export default function Home() {
           </div>
           <div className="w-full md:w-1/2 py-6 text-center">
             {/* You can add a hero image here */}
-            <div className="bg-white bg-opacity-10 p-8 rounded-2xl shadow-xl max-w-md mx-auto">
-              <div className="space-y-4">
-                {[1, 2, 3].map((item) => (
-                  <div
-                    key={item}
-                    className="bg-white bg-opacity-20 rounded-lg p-4 flex flex-col items-start"
-                  >
-                    <div className="w-3/4 h-4 bg-white bg-opacity-30 rounded mb-2"></div>
-                    <div className="w-1/2 h-3 bg-white bg-opacity-30 rounded"></div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>

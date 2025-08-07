@@ -49,10 +49,12 @@ export interface Article {
   link: string;
   description: string | null;
   pubDate: string | null;
+  published_at: string; // Added for compatibility with API response
   guid: string | null;
   createdAt: string;
   updatedAt: string;
   feed?: Feed; // For expanded article data
+  feed_name?: string; // Added for compatibility with API response
 }
 
 // API Response Types
