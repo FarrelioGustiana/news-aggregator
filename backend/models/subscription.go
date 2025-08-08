@@ -7,15 +7,15 @@ import (
 )
 
 type Subscription struct {
-	gorm.Model
-	ID uint `gorm:"primarykey"`
+	gorm.Model `json:"-"`
+	ID uint `gorm:"primarykey" json:"id"`
 
-	UserID string `gorm:"not null"`
-	User User `gorm:"foreignKey:UserID"`
+	UserID string `gorm:"not null" json:"userId"`
+	User User `gorm:"foreignKey:UserID" json:"user,omitempty"`
 
-	FeedID uint `gorm:"not null"`
-	Feed Feed `gorm:"foreignKey:FeedID"`
+	FeedID uint `gorm:"not null" json:"feedId"`
+	Feed Feed `gorm:"foreignKey:FeedID" json:"feed,omitempty"`
 
-	SubscribedAt time.Time
+	SubscribedAt time.Time `json:"subscribedAt"`
 }
 
