@@ -59,7 +59,7 @@ func LoginUser(username string, password string) (string, error) {
 		return "", errors.New("invalid credentials")
 	}
 
-	token, err := utils.GenerateToken(user.ID)
+	token, err := utils.GenerateToken(user.ID, user.IsAdmin)
 	if err != nil {
 		return "", fmt.Errorf("failed to generate token: %w", err)
 	}
@@ -114,9 +114,7 @@ func UpdateUserProfile(userID, newUsername, newPassword string) (*models.User, e
 	}
 
 	return &models.User{
-		ID:        user.ID,
-		Username:  user.Username,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
+		ID:       user.ID,
+		Username: user.Username,
 	}, nil
 }

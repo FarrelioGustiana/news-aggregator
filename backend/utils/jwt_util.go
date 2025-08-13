@@ -7,15 +7,17 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func GenerateToken(userID string) (string, error) {
+func GenerateToken(userID string, isAdmin bool) (string, error) {
 	// Define the claims (payload) for the JWT.
 	// "authorized": A custom claim indicating if the user is authorized.
 	// "user_id": The ID of the user, stored as a string.
-	// "exp": Expiration time (Unix timestamp). Token expires in 1 hour.
+	// "is_admin": Boolean indicating if the user has admin privileges.
+	// "exp": Expiration time (Unix timestamp). Token expires in one month.
 	// "iat": Issued at time (Unix timestamp).
 	claims := jwt.MapClaims{
 		"authorized": true,
 		"user_id":    userID,
+		"is_admin":   isAdmin,
 		"exp":        time.Now().Add(time.Hour * 24 * 30).Unix(), // Token expires in one month
 		"iat":        time.Now().Unix(),
 	}

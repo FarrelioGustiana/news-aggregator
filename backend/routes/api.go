@@ -23,12 +23,18 @@ func SetupAPIRoutes(router *gin.Engine) {
 		apiRoutes.GET("/users/me", controllers.GetMyProfile)
 		apiRoutes.PUT("/users/me", controllers.UpdateMyProfile)
 
-		// Feeds
-		apiRoutes.POST("/feeds", controllers.CreateFeed)
+		// Feeds - GET endpoints available to all authenticated users
 		apiRoutes.GET("/feeds", controllers.GetAllFeeds)
 		apiRoutes.GET("/feeds/:id", controllers.GetFeedByID)
-		apiRoutes.PUT("/feeds/:id", controllers.UpdateFeed)
-		apiRoutes.DELETE("/feeds/:id", controllers.DeleteFeed)
+		
+		// Admin - POST, PUT, DELETE endpoints available only to admin users
+		adminRoutes := apiRoutes.Group("")
+		adminRoutes.Use(middleware.AdminMiddleware())
+		{
+			adminRoutes.POST("/feeds", controllers.CreateFeed)
+			adminRoutes.PUT("/feeds/:id", controllers.UpdateFeed)
+			adminRoutes.DELETE("/feeds/:id", controllers.DeleteFeed)
+		}
 
 		// Subcriptions
 		apiRoutes.POST("/subscriptions", controllers.SubscribeToFeed) 

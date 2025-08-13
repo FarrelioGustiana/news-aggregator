@@ -15,6 +15,7 @@ type User struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt,omitempty"`
+	IsAdmin bool `gorm:"default:false" json:"isAdmin"`
 
 	Subscriptions []Subscription `gorm:"foreignKeyUserID" json:"subscriptions,omitempty"`
 }
